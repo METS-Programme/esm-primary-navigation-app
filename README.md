@@ -1,14 +1,32 @@
-![Node.js CI](https://github.com/METS-Programme/esm-ugandaemr-template-app/workflows/Node.js%20CI/badge.svg)
+# OpenMRS 3.x APPS ESM
 
-# UgandaEMR Template app
+A frontend module for managing apps built on OpenMRS 3.x 
 
-![Landing page screenshot](./src/assets/images/screen.png)
 
-A starter template ESM for UgandaEMR inspired by https://github.com/openmrs/openmrs-esm-template-app.
+For more information, please refer to the 
+[OpenMRS 3.x Frontend Documentation](https://openmrs.github.io/openmrs-esm-core/#/).
 
-You can use this repo as a template to spawn new frontend modules for UgandaEMR.
+# Getting Started
 
-The current setup works best for setting up polyrepos. To adapt the template for a monorepo setup, you'll need to make the following changes:
+```sh
+# Clone the repository
+git clone https://github.com/METS-Programme/esm-menu-app.git
 
-- Add a `packages` directory inside of `src`.
+# to install dependencies
+yarn
 
+# to run the dev server
+yarn start
+
+# OR to start on a specified port eg 5000
+yarn start --port 5000
+```
+
+Once it is running, a browser window
+should open with the OpenMRS 3 application. Log in and then navigate to
+`/openmrs/spa/home`.
+
+# Running tests
+```
+yarn run test
+```
