@@ -5,9 +5,13 @@
     "webservices.rest": "^2.24.0"
   },
   "pages": [
+   
+  ],
+  "extensions": [
     {
-      "component": "root",
-      "route": "root"
+      "name": "menu-items",
+      "component": "menuItems",
+      "slot": ""
     }
   ]
 }

@@ -15,11 +15,11 @@ export const importTranslation = require.context(
   "lazy"
 );
 
+export const menuItems = getAsyncLifecycle(
+  () => import("./menu/menu.component"),
+  options
+);
+
 export function startupApp() {
   defineConfigSchema(moduleName, configSchema);
 }
-
-export const root = getAsyncLifecycle(
-  () => import("./root.component"),
-  options
-);
