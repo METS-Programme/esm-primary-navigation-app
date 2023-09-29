@@ -45,13 +45,11 @@ const MenuItems = () => {
 
   return (
     <Grid>
-      <Row>
-        {items.map((item) => (
-          <Column>
-            <Item item={item} />
-          </Column>
-        ))}
-      </Row>
+      {items.map((item) => (
+        <Column lg={5} md={5} sm={5}>
+          <Item item={item} />
+        </Column>
+      ))}
     </Grid>
   );
 };
