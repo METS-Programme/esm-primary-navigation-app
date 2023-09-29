@@ -12,11 +12,6 @@ const MenuItems = () => {
       icon: "Report",
     },
     {
-      app: "Patient Queue",
-      link: `${openmrsSpaBase}patient-queues`,
-      icon: "People",
-    },
-    {
       app: "Dispensing ",
       link: `${openmrsSpaBase}dispensing`,
       icon: "People",
