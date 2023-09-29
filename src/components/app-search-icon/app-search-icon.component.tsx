@@ -22,8 +22,6 @@ const AppSearchLaunch: React.FC<AppSearchLaunchProps> = () => {
   const [searchParams] = useSearchParams();
   const initialSearchTerm = isSearchPage ? searchParams.get("query") : "";
 
-
-
   const [showSearchInput, setShowSearchInput] = useState(false);
   const [canClickOutside, setCanClickOutside] = useState(false);
 
