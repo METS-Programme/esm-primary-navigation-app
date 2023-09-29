@@ -1,7 +1,7 @@
-declare module "@carbon/react";
 declare module "*.css";
 declare module "*.scss";
-declare module "*.png";
-declare module "*.svg";
-
-declare type SideNavProps = object;
+declare module "@carbon/react";
+declare type HeaderPanelProps = object;
+declare type SideNavProps = {
+  isChildOfHeader: boolean;
+};

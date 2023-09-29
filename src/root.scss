@@ -1,41 +1,22 @@
-@use '@carbon/styles/scss/spacing';
-@use '@carbon/styles/scss/type';
+@use "@carbon/styles/scss/type";
+@import "~@openmrs/esm-styleguide/src/vars";
 
-.container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
+.productiveHeading01 {
+  @include type.type-style("heading-compact-01");
 }
 
-.heading {
-  @include type.type-style('heading-03');
+.productiveHeading02 {
+  @include type.type-style("heading-compact-02");
 }
 
-.subheading {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.bodyLong01 {
+  @include type.type-style("body-01");
 }
 
-.explainer {
-  @include type.type-style('body-long-01');
-  margin: 1rem 0;
+.headerPanel {
+  height: max-content;
 }
 
-.section {
-  margin-top: 2rem;
-  max-width: 40rem;
-
-  p {
-    @include type.type-style('heading-02');
-  }
-}
-
-.list {
-  margin-top: 2rem;
-
-  > * + * {
-    margin-top: spacing.$spacing-04;
-  }
+.primaryNavContainer {
+  height: var(--omrs-topnav-height);
 }
