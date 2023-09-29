@@ -3,25 +3,42 @@ import Item from "./item/item.component";
 import { Grid, Row, Column } from "@carbon/react";
 
 const MenuItems = () => {
+  const openmrsSpaBase = window["getOpenmrsSpaBase"]();
+
   const items = [
     {
       app: "Data Visualiser",
-      link: "openmrs/spa/data-visualizer",
+      link: `${openmrsSpaBase}data-visualiser`,
       icon: "Report",
     },
     {
       app: "Patient Queue",
-      link: "openmrs/spa/patient-queues",
+      link: `${openmrsSpaBase}patient-queues`,
       icon: "People",
     },
     {
-      app: "Data Visualiser",
-      link: "openmrs/spa/data-visualizer",
-      icon: "Report",
+      app: "Dispensing ",
+      link: `${openmrsSpaBase}dispensing`,
+      icon: "People",
     },
     {
-      app: "Patient Queue",
-      link: "openmrs/spa/patient-queues",
+      app: "Stock Management ",
+      link: `${openmrsSpaBase}stock-management`,
+      icon: "People",
+    },
+    {
+      app: "Bed Management ",
+      link: `${openmrsSpaBase}bed-management`,
+      icon: "People",
+    },
+    {
+      app: "Form Builder ",
+      link: `${openmrsSpaBase}form-builder`,
+      icon: "People",
+    },
+    {
+      app: "Form Render Test ",
+      link: `${openmrsSpaBase}form-render-test`,
       icon: "People",
     },
   ];
@@ -29,10 +46,10 @@ const MenuItems = () => {
   return (
     <Grid>
       <Row>
-        {items.map((item, index) => (
-          <Row key={index} sm={2} md={2} lg={2}>
+        {items.map((item) => (
+          <Column>
             <Item item={item} />
-          </Row>
+          </Column>
         ))}
       </Row>
     </Grid>

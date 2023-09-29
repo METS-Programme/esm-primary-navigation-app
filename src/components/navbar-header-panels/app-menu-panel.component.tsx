@@ -24,8 +24,6 @@ const AppMenuPanel: React.FC<AppMenuProps> = ({ expanded, hidePanel }) => {
       onClick={() => hidePanel()}
     >
       <MenuItems />
-      {/* <AppSearchBar onClear={} onSubmit={} /> */}
-      {/* <AppSearchLaunch /> */}
     </HeaderPanel>
   );
 };

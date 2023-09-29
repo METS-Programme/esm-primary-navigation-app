@@ -25,7 +25,7 @@ const Overlay: React.FC<OverlayProps> = ({
         isDesktop(layout) ? styles.desktopOverlay : styles.tabletOverlay
       }
     >
-      {isDesktop(layout) ? (
+      {/* {isDesktop(layout) ? (
         <div className={styles.desktopHeader}>
           <div className={styles.headerContent}>{header}</div>
           <Button
@@ -47,7 +47,7 @@ const Overlay: React.FC<OverlayProps> = ({
           </Button>
           <div className={styles.headerContent}>{header}</div>
         </Header>
-      )}
+      )} */}
       <div className={styles.overlayContent}>{children}</div>
       <div className={styles.buttonsGroup}>{buttonsGroup}</div>
     </div>
