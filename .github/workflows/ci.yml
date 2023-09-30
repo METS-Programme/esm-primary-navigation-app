@@ -1,7 +1,7 @@
-name: Node.js CI
+name: UgandaEMR CI
 
 on:
-  workflow_dispatch: # enables the workflow to be triggered manually
+  workflow_dispatch:
   push:
     branches: [main]
   pull_request:
@@ -11,8 +11,8 @@ on:
       - created
 
 env:
-  ESM_NAME: "@ugandaemr/esm-template-app"
-  JS_NAME: "esm-ugandaemr-template-app.js"
+  ESM_NAME: "@ugandaemr/esm-primary-navigation-app"
+  JS_NAME: "esm-primary-navigation-app.js"
 
 jobs:
   build:
@@ -24,16 +24,23 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - name: Use Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: "18.x"
           registry-url: "https://registry.npmjs.org"
 
+      - name: Cache dependencies
+        id: cache
+        uses: actions/cache@v3
+        with:
+          path: "**/node_modules"
+          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+
       - name: Install dependencies
         if: steps.cache.outputs.cache-hit != 'true'
         run: yarn install --immutable
-        
+
       - name: Setup local cache server for Turborepo
         uses: felixmosh/turborepo-gh-artifacts@v2
         with:
@@ -58,55 +65,54 @@ jobs:
     if: ${{ github.event_name == 'push' }}
 
     steps:
-      - run: echo "Uncomment the lines below and delete this one."
-      # - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-      # - name: Download Artifacts
-      #   uses: actions/download-artifact@v3
+      - name: Download Artifacts
+        uses: actions/download-artifact@v3
 
-      # - name: Setup Node.js
-      #   uses: actions/setup-node@v3
-      #   with:
-      #     node-version: "18.x"
-      #     registry-url: "https://registry.npmjs.org"
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18.x"
+          registry-url: "https://registry.npmjs.org"
 
-      # - name: Cache dependencies
-      #   id: cache
-      #   uses: actions/cache@v3
-      #   with:
-      #     path: "**/node_modules"
-      #     key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+      - name: Cache dependencies
+        id: cache
+        uses: actions/cache@v3
+        with:
+          path: "**/node_modules"
+          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
 
-      # - name: Install dependencies
-      #   if: steps.cache.outputs.cache-hit != 'true'
-      #   run: yarn install --immutable
-        
-      # - name: Setup local cache server for Turborepo
-      #   uses: felixmosh/turborepo-gh-artifacts@v2
-      #   with:
-      #     repo-token: ${{ secrets.GITHUB_TOKEN }}
-      #     server-token: ${{ secrets.TURBO_SERVER_TOKEN }}
+      - name: Install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: yarn install --immutable
 
-      # - name: Version
-      #   run: yarn version "$(node -e "console.log(require('semver').inc(require('./package.json').version, 'patch'))")-pre.${{ github.run_number }}"
+      - name: Setup local cache server for Turborepo
+        uses: felixmosh/turborepo-gh-artifacts@v2
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          server-token: ${{ secrets.TURBO_SERVER_TOKEN }}
 
-      # - name: Build
-      #   run: yarn turbo build --color --concurrency=5
+      - name: Version
+        run: yarn version "$(node -e "console.log(require('semver').inc(require('./package.json').version, 'patch'))")-pre.${{ github.run_number }}"
 
-      # - run: git config user.email "<>" && git config user.name "UgandaEMR CI"
-      # - run: git add . && git commit -m "Prerelease version" --no-verify
+      - name: Build
+        run: yarn turbo build --color --concurrency=5
 
-      # - name: Pre-release
-      #   run: yarn config set npmAuthToken "${NODE_AUTH_TOKEN}" && yarn npm publish --access public --tag next
-      #   env:
-      #     NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+      - run: git config user.email "<>" && git config user.name "UgandaEMR CI"
+      - run: git add . && git commit -m "Prerelease version" --no-verify
 
-      # - name: Upload Artifacts
-      #   uses: actions/upload-artifact@v3
-      #   with:
-      #     name: dist
-      #     path: |
-      #       dist
+      - name: Pre-release
+        run: yarn config set npmAuthToken "${NODE_AUTH_TOKEN}" && yarn npm publish --access public --tag next
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: dist
+          path: |
+            dist
 
   release:
     runs-on: ubuntu-latest
@@ -123,7 +129,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: "18.x"
-          registry-url: 'https://registry.npmjs.org'
+          registry-url: "https://registry.npmjs.org"
 
       - name: Cache dependencies
         id: cache
@@ -136,22 +142,7 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
         run: yarn install --immutable
 
-      - run: yarn config set npmAuthToken "${NODE_AUTH_TOKEN}" &&  yarn npm publish
+      - run: yarn turbo build --color
+      - run: yarn run ci:publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
-  
-  deploy:
-    runs-on: ubuntu-latest
-
-    needs: pre_release
-
-    if: ${{ github.event_name == 'push' }}
-
-    steps:
-      - run: echo "Uncomment the lines below and delete this one."
-      # - name: Trigger RefApp Build
-      #   uses: fjogeleit/http-request-action@master
-      #   with:
-      #     url: https://ci.openmrs.org/rest/api/latest/queue/REFAPP-D3X
-      #     method: "POST"
-      #     customHeaders: '{ "Authorization": "Bearer ${{ secrets.BAMBOO_TOKEN }}" }'
