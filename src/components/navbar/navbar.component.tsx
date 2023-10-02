@@ -193,30 +193,6 @@ const Navbar: React.FC = () => {
               )}
             </HeaderGlobalAction>
           )}
-          {/* {showAppMenu && (
-            <HeaderGlobalAction
-              aria-label="App Menu"
-              aria-labelledby="App Menu"
-              enterDelayMs={500}
-              isActive={isActivePanel("appMenu")}
-              tooltipAlignment="end"
-              className={`${
-                isActivePanel("appMenu")
-                  ? styles.headerGlobalBarButton
-                  : styles.activePanel
-              }`}
-              onClick={(event) => {
-                togglePanel("appMenu");
-                event.stopPropagation();
-              }}
-            >
-              {isActivePanel("appMenu") ? (
-                <Close size={20} />
-              ) : (
-                <Switcher size={20} />
-              )}
-            </HeaderGlobalAction>
-          )} */}
         </HeaderGlobalBar>
         {!isDesktop(layout) && (
           <SideMenuPanel
@@ -224,13 +200,7 @@ const Navbar: React.FC = () => {
             expanded={isActivePanel("sideMenu")}
           />
         )}
-        {showAppMenu && (
-          <AppSearchLaunch />
-          // <AppSearchOverlay
-          //   onClose={handleGlobalAction}
-          //   query={initialSearchTerm}
-          // />
-        )}
+        {showAppMenu && <AppSearchLaunch />}
         <NotificationsMenuPanel expanded={isActivePanel("notificationsMenu")} />
         {showUserMenu && (
           <UserMenuPanel
