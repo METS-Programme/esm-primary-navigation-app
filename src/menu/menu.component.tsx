@@ -39,9 +39,9 @@ const MenuItems = () => {
   ];
 
   return (
-    <Grid>
+    <Grid style={{ gap: "2px" }}>
       {items.map((item) => (
-        <Column lg={8} md={5} sm={5}>
+        <Column lg={5} md={5} sm={5} style={{ margin: "2px" }}>
           <Item item={item} />
         </Column>
       ))}
