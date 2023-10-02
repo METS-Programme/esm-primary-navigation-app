@@ -10,7 +10,8 @@
   height: 500px;
   min-width: 25rem;
   background-color: white;
-  border-left: 1px  $text-03;
+  border-left: 1px solid $text-03;
+  border-bottom: 1px solid;
   overflow: hidden;
   display: grid;
   grid-template-rows: auto 1fr auto;
