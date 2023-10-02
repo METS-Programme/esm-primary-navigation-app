@@ -6998,6 +6998,7 @@ __metadata:
     react-image-annotate: ^1.8.0
     react-router-dom: ^6.14.1
     rxjs: ^6.6.7
+    single-spa: ^5.9.2
     swc-loader: ^0.2.3
     turbo: ^1.10.7
     typescript: ^4.9.5
