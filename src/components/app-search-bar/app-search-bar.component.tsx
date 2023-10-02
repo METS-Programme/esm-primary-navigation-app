@@ -36,52 +36,52 @@ const AppSearchBar = React.forwardRef<
     {
       app: "Data Visualiser",
       link: `${openmrsSpaBase}data-visualiser`,
-      icon: <Analytics />,
+      icon: <Analytics size={24} />,
     },
     {
       app: "Dispensing ",
       link: `${openmrsSpaBase}dispensing`,
-      icon: <Medication />,
+      icon: <Medication size={24} />,
     },
     {
       app: "Stock Management ",
       link: `${openmrsSpaBase}stock-management`,
-      icon: <Report />,
+      icon: <Report size={24} />,
     },
     {
       app: "Bed Management ",
       link: `${openmrsSpaBase}bed-management`,
-      icon: <HospitalBed />,
+      icon: <HospitalBed size={24} />,
     },
     {
       app: "Form Builder ",
       link: `${openmrsSpaBase}form-builder`,
-      icon: <DocumentAdd />,
+      icon: <DocumentAdd size={24} />,
     },
     {
       app: "Form Render Test ",
       link: `${openmrsSpaBase}form-render-test`,
-      icon: <DocumentImport />,
+      icon: <DocumentImport size={24} />,
     },
     {
       app: "Legacy Admin ",
       link: `/openmrs/admin/index.htm`,
-      icon: <User />,
+      icon: <User size={24} />,
     },
     {
       app: "Cohort Builder ",
       link: `${openmrsSpaBase}cohort-builder`,
-      icon: <Events />,
+      icon: <Events size={24} />,
     },
     {
       app: "Theatre ",
       link: `${openmrsSpaBase}theatre`,
-      icon: <UserActivity />,
+      icon: <UserActivity size={24} />,
     },
     {
       app: "System Info ",
       link: `${openmrsSpaBase}about`,
-      icon: <VolumeFileStorage />,
+      icon: <VolumeFileStorage size={24} />,
     },
   ];
 
