@@ -18,7 +18,6 @@ import {
   useConfig,
 } from "@openmrs/esm-framework";
 import { isDesktop } from "../../utils";
-import AppMenuPanel from "../navbar-header-panels/app-menu-panel.component";
 import Logo from "../logo/logo.component";
 import NotificationsMenuPanel from "../navbar-header-panels/notifications-menu-panel.component";
 import OfflineBanner from "../offline-banner/offline-banner.component";
