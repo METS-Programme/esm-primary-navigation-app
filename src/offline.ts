@@ -24,6 +24,8 @@ export async function syncUserLanguagePreference(
       options.abort
     );
 
+    // test
+
     refetchCurrentUser();
   }
 }
