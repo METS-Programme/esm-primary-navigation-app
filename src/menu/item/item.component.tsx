@@ -10,9 +10,8 @@ const Item = ({ item }) => {
       id="menu-item"
       href={item.link}
     >
-      <Report size={20} />
-      <br />
-      <span className={styles.customTileTitle}> {item?.app}</span>
+      {item.icon && <div className="customTileTitle">{item.icon}</div>}
+      {item.app && <div>{item.app}</div>}
     </ClickableTile>
   );
 };

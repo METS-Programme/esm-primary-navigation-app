@@ -1,6 +1,14 @@
 import React from "react";
 import Item from "./item/item.component";
-import { Grid, Row, Column } from "@carbon/react";
+import { Grid, Column } from "@carbon/react";
+import {
+  Analytics,
+  DocumentAdd,
+  DocumentImport,
+  Hotel,
+  Medication,
+  Report,
+} from "@carbon/react/icons";
 
 const MenuItems = () => {
   const openmrsSpaBase = window["getOpenmrsSpaBase"]();
@@ -9,32 +17,32 @@ const MenuItems = () => {
     {
       app: "Data Visualiser",
       link: `${openmrsSpaBase}data-visualiser`,
-      icon: "Report",
+      icon: <Analytics />,
     },
     {
       app: "Dispensing ",
       link: `${openmrsSpaBase}dispensing`,
-      icon: "People",
+      icon: <Medication />,
     },
     {
       app: "Stock Management ",
       link: `${openmrsSpaBase}stock-management`,
-      icon: "People",
+      icon: <Report />,
     },
     {
       app: "Bed Management ",
       link: `${openmrsSpaBase}bed-management`,
-      icon: "People",
+      icon: <Hotel />,
     },
     {
       app: "Form Builder ",
       link: `${openmrsSpaBase}form-builder`,
-      icon: "People",
+      icon: <DocumentAdd />,
     },
     {
       app: "Form Render Test ",
       link: `${openmrsSpaBase}form-render-test`,
-      icon: "People",
+      icon: <DocumentImport />,
     },
   ];
 

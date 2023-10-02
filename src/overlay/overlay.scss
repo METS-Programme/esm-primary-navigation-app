@@ -4,13 +4,13 @@
 @import '../root.scss';
 
 .desktopOverlay {
-  position: fixed;
+  position: absolute;
   top: spacing.$spacing-09;
   right: 0;
   height: 500px;
   min-width: 25rem;
   background-color: white;
-  border-left: 1px solid $text-03;
+  border-left: 1px  $text-03;
   overflow: hidden;
   display: grid;
   grid-template-rows: auto 1fr auto;
