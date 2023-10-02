@@ -3,9 +3,16 @@ import { useTranslation } from "react-i18next";
 import { Search } from "@carbon/react";
 import styles from "./app-search-bar.scss";
 import MenuItems from "../../menu/menu.component";
+import {
+  Analytics,
+  DocumentAdd,
+  DocumentImport,
+  Hotel,
+  Medication,
+  Report,
+} from "@carbon/react/icons";
 
 interface AppSearchBarProps {
-  initialSearchTerm?: string;
   onChange?: (searchTerm) => void;
   onClear: () => void;
   onSubmit: (searchTerm) => void;
@@ -15,17 +22,60 @@ interface AppSearchBarProps {
 const AppSearchBar = React.forwardRef<
   HTMLInputElement,
   React.PropsWithChildren<AppSearchBarProps>
->(({ initialSearchTerm, onChange, onClear, onSubmit, small }, ref) => {
+>(({ onChange, onClear, onSubmit, small }, ref) => {
   const { t } = useTranslation();
-  const [searchTerm, setSearchTerm] = useState(initialSearchTerm);
+
+  // items
+  const openmrsSpaBase = window["getOpenmrsSpaBase"]();
+
+  const initialItems = [
+    {
+      app: "Data Visualiser",
+      link: `${openmrsSpaBase}data-visualiser`,
+      icon: <Analytics />,
+    },
+    {
+      app: "Dispensing ",
+      link: `${openmrsSpaBase}dispensing`,
+      icon: <Medication />,
+    },
+    {
+      app: "Stock Management ",
+      link: `${openmrsSpaBase}stock-management`,
+      icon: <Report />,
+    },
+    {
+      app: "Bed Management ",
+      link: `${openmrsSpaBase}bed-management`,
+      icon: <Hotel />,
+    },
+    {
+      app: "Form Builder ",
+      link: `${openmrsSpaBase}form-builder`,
+      icon: <DocumentAdd />,
+    },
+    {
+      app: "Form Render Test ",
+      link: `${openmrsSpaBase}form-render-test`,
+      icon: <DocumentImport />,
+    },
+  ];
+
+  const [searchTerm, setSearchTerm] = useState("");
+  const [items, setItems] = useState(initialItems);
+
   const handleChange = useCallback(
     (val) => {
       if (typeof onChange === "function") {
         onChange(val);
       }
       setSearchTerm(val);
+      const filteredItems = initialItems.filter((item) =>
+        item.app.toLowerCase().includes(val)
+      );
+      setItems(filteredItems);
     },
-    [onChange, setSearchTerm]
+    [initialItems, onChange]
   );
 
   const handleSubmit = (evt) => {
@@ -54,7 +104,7 @@ const AppSearchBar = React.forwardRef<
         />
       </form>
       <div className={styles.searchItems}>
-        <MenuItems />
+        <MenuItems items={items} />
       </div>
     </>
   );
