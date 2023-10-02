@@ -38,7 +38,6 @@ const AppSearchOverlay: React.FC<AppSearchOverlayProps> = ({
       close={onClose}
     >
       <AppSearchBar
-        initialSearchTerm={query}
         onSubmit={onSearchQueryChange}
         onChange={onSearchQueryChange}
         onClear={handleClear}

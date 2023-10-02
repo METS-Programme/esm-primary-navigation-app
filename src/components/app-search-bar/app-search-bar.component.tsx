@@ -13,6 +13,7 @@ import {
   Medication,
   User,
   Report,
+  UserActivity,
 } from "@carbon/react/icons";
 
 interface AppSearchBarProps {
@@ -75,7 +76,7 @@ const AppSearchBar = React.forwardRef<
     {
       app: "Theatre ",
       link: `${openmrsSpaBase}theatre`,
-      icon: <Events />,
+      icon: <UserActivity />,
     },
     {
       app: "System Info ",

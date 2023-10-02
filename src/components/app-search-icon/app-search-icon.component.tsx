@@ -26,8 +26,6 @@ const AppSearchLaunch: React.FC<AppSearchLaunchProps> = () => {
   const [canClickOutside, setCanClickOutside] = useState(false);
 
   const handleCloseSearchInput = useCallback(() => {
-    // Clicking outside of the search input when "/search" page is open should not close the search input.
-    // In tabletView, the overlay should be closed when the overlay's back button (<-) is clicked
     if (isDesktop(layout) && !isSearchPage) {
       setShowSearchInput(false);
     }

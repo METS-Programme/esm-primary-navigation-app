@@ -4,7 +4,9 @@ import { of } from "rxjs";
 export const useLayoutType = jest.fn(() => "tablet");
 
 export function openmrsFetch() {
-  return new Promise(() => {});
+  return new Promise(() => {
+    console.info("testing");
+  });
 }
 
 export function useOnClickOutside() {
