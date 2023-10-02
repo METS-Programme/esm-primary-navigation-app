@@ -7,8 +7,11 @@ import {
   Analytics,
   DocumentAdd,
   DocumentImport,
-  Hotel,
+  Events,
+  VolumeFileStorage,
+  HospitalBed,
   Medication,
+  User,
   Report,
 } from "@carbon/react/icons";
 
@@ -47,7 +50,7 @@ const AppSearchBar = React.forwardRef<
     {
       app: "Bed Management ",
       link: `${openmrsSpaBase}bed-management`,
-      icon: <Hotel />,
+      icon: <HospitalBed />,
     },
     {
       app: "Form Builder ",
@@ -58,6 +61,26 @@ const AppSearchBar = React.forwardRef<
       app: "Form Render Test ",
       link: `${openmrsSpaBase}form-render-test`,
       icon: <DocumentImport />,
+    },
+    {
+      app: "Legacy Admin ",
+      link: `/openmrs/admin/index.htm`,
+      icon: <User />,
+    },
+    {
+      app: "Cohort Builder ",
+      link: `${openmrsSpaBase}cohort-builder`,
+      icon: <Events />,
+    },
+    {
+      app: "Theatre ",
+      link: `${openmrsSpaBase}theatre`,
+      icon: <Events />,
+    },
+    {
+      app: "System Info ",
+      link: `${openmrsSpaBase}about`,
+      icon: <VolumeFileStorage />,
     },
   ];
 
