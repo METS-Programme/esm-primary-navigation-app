@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Search } from "@carbon/react";
 import styles from "./app-search-bar.scss";
@@ -32,58 +32,62 @@ const AppSearchBar = React.forwardRef<
   // items
   const openmrsSpaBase = window["getOpenmrsSpaBase"]();
 
-  const initialItems = [
-    {
-      app: "Data Visualiser",
-      link: `${openmrsSpaBase}data-visualiser`,
-      icon: <Analytics size={24} />,
-    },
-    {
-      app: "Dispensing ",
-      link: `${openmrsSpaBase}dispensing`,
-      icon: <Medication size={24} />,
-    },
-    {
-      app: "Stock Management ",
-      link: `${openmrsSpaBase}stock-management`,
-      icon: <Report size={24} />,
-    },
-    {
-      app: "Bed Management ",
-      link: `${openmrsSpaBase}bed-management`,
-      icon: <HospitalBed size={24} />,
-    },
-    {
-      app: "Form Builder ",
-      link: `${openmrsSpaBase}form-builder`,
-      icon: <DocumentAdd size={24} />,
-    },
-    {
-      app: "Form Render Test ",
-      link: `${openmrsSpaBase}form-render-test`,
-      icon: <DocumentImport size={24} />,
-    },
-    {
-      app: "Legacy Admin ",
-      link: `/openmrs/admin/index.htm`,
-      icon: <User size={24} />,
-    },
-    {
-      app: "Cohort Builder ",
-      link: `${openmrsSpaBase}cohort-builder`,
-      icon: <Events size={24} />,
-    },
-    {
-      app: "Theatre ",
-      link: `${openmrsSpaBase}theatre`,
-      icon: <UserActivity size={24} />,
-    },
-    {
-      app: "System Info ",
-      link: `${openmrsSpaBase}about`,
-      icon: <VolumeFileStorage size={24} />,
-    },
-  ];
+  const initialItems = useMemo(() => {
+    const items = [
+      {
+        app: "Data Visualiser",
+        link: `${openmrsSpaBase}data-visualiser`,
+        icon: <Analytics size={24} />,
+      },
+      {
+        app: "Dispensing ",
+        link: `${openmrsSpaBase}dispensing`,
+        icon: <Medication size={24} />,
+      },
+      {
+        app: "Stock Management ",
+        link: `${openmrsSpaBase}stock-management`,
+        icon: <Report size={24} />,
+      },
+      {
+        app: "Bed Management ",
+        link: `${openmrsSpaBase}bed-management`,
+        icon: <HospitalBed size={24} />,
+      },
+      {
+        app: "Form Builder ",
+        link: `${openmrsSpaBase}form-builder`,
+        icon: <DocumentAdd size={24} />,
+      },
+      {
+        app: "Form Render Test ",
+        link: `${openmrsSpaBase}form-render-test`,
+        icon: <DocumentImport size={24} />,
+      },
+      {
+        app: "Legacy Admin ",
+        link: `/openmrs/admin/index.htm`,
+        icon: <User size={24} />,
+      },
+      {
+        app: "Cohort Builder ",
+        link: `${openmrsSpaBase}cohort-builder`,
+        icon: <Events size={24} />,
+      },
+      {
+        app: "Theatre ",
+        link: `${openmrsSpaBase}theatre`,
+        icon: <UserActivity size={24} />,
+      },
+      {
+        app: "System Info ",
+        link: `${openmrsSpaBase}about`,
+        icon: <VolumeFileStorage size={24} />,
+      },
+    ];
+
+    return items;
+  }, [openmrsSpaBase]);
 
   const [searchTerm, setSearchTerm] = useState("");
   const [items, setItems] = useState(initialItems);
