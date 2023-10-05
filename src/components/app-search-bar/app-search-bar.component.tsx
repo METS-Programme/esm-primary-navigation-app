@@ -5,6 +5,7 @@ import styles from "./app-search-bar.scss";
 import MenuItems from "../../menu/menu.component";
 import {
   Analytics,
+  AnalyticsCustom,
   DocumentAdd,
   DocumentImport,
   Events,
@@ -36,7 +37,7 @@ const AppSearchBar = React.forwardRef<
     const items = [
       {
         app: "Data Visualiser",
-        link: `${openmrsSpaBase}data-visualiser`,
+        link: `${openmrsSpaBase}home/data-visualizer`,
         icon: <Analytics size={24} />,
       },
       {
@@ -66,7 +67,7 @@ const AppSearchBar = React.forwardRef<
       },
       {
         app: "Legacy Admin ",
-        link: `/openmrs/admin/index.htm`,
+        link: `/openmrs/index.htm`,
         icon: <User size={24} />,
       },
       {
@@ -74,15 +75,20 @@ const AppSearchBar = React.forwardRef<
         link: `${openmrsSpaBase}cohort-builder`,
         icon: <Events size={24} />,
       },
-      {
-        app: "Theatre ",
-        link: `${openmrsSpaBase}theatre`,
-        icon: <UserActivity size={24} />,
-      },
+      // {
+      //   app: "Theatre ",
+      //   link: `${openmrsSpaBase}theatre`,
+      //   icon: <UserActivity size={24} />,
+      // },
       {
         app: "System Info ",
         link: `${openmrsSpaBase}about`,
         icon: <VolumeFileStorage size={24} />,
+      },
+      {
+        app: "Data Entry Statistics ",
+        link: `${openmrsSpaBase}statistics`,
+        icon: <AnalyticsCustom size={24} />,
       },
     ];
 
