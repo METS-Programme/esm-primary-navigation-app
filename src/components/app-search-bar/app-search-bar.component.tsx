@@ -6,6 +6,7 @@ import MenuItems from "../../menu/menu.component";
 import {
   Analytics,
   AnalyticsCustom,
+  Db2DataSharingGroup,
   DocumentAdd,
   DocumentImport,
   Events,
@@ -54,6 +55,11 @@ const AppSearchBar = React.forwardRef<
         app: "Bed Management ",
         link: `${openmrsSpaBase}bed-management`,
         icon: <HospitalBed size={24} />,
+      },
+      {
+        app: "Health Exchange ",
+        link: `${openmrsSpaBase}health-exchange`,
+        icon: <Db2DataSharingGroup size={24} />,
       },
       {
         app: "Form Builder ",
