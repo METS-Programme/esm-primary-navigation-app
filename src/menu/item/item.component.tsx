@@ -7,10 +7,12 @@ const Item = ({ item }) => {
     <ClickableTile
       className={styles.customTile}
       id="menu-item"
-      href={item.link}
+      href={item.meta.link}
     >
-      {item.icon && <div className="customTileTitle">{item.icon}</div>}
-      {item.app && <div>{item.app}</div>}
+      {item.meta.icon && (
+        <div className="customTileTitle">{item.meta.icon}</div>
+      )}
+      {item.meta.app && <div>{item.app}</div>}
     </ClickableTile>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Search } from "@carbon/react";
 import styles from "./app-search-bar.scss";
@@ -17,6 +17,15 @@ import {
   Report,
   UserActivity,
 } from "@carbon/react/icons";
+import {
+  AssignedExtension,
+  ExtensionSlot,
+  attach,
+  detachAll,
+  useConnectedExtensions,
+} from "@openmrs/esm-framework";
+
+const appMenuItemSlot = "app-menu-item-slot";
 
 interface AppSearchBarProps {
   onChange?: (searchTerm) => void;
@@ -33,6 +42,45 @@ const AppSearchBar = React.forwardRef<
 
   // items
   const openmrsSpaBase = window["getOpenmrsSpaBase"]();
+
+  // item extensions
+  const menuItemExtensions = useConnectedExtensions(
+    appMenuItemSlot
+  ) as AssignedExtension[];
+
+  const [derivedSlots, setDerivedSlots] = useState<
+    { slot: string; extension: string }[]
+  >([]);
+
+  const extraPanels = useMemo(() => {
+    const filteredExtensions = menuItemExtensions.filter(
+      (extension) => Object.keys(extension.meta).length > 0
+    );
+    const derivedSlotsBuffer = [];
+    return filteredExtensions.map((extension, index) => {
+      const slotName = `${appMenuItemSlot}-${index}`;
+      derivedSlotsBuffer.push({
+        slot: slotName,
+        extension: extension.name,
+      });
+      if (filteredExtensions.length === index + 1) {
+        setDerivedSlots(derivedSlotsBuffer);
+      }
+      return <ExtensionSlot name={slotName} />;
+    });
+  }, [menuItemExtensions]);
+
+  useEffect(() => {
+    derivedSlots.forEach(({ slot, extension }) => {
+      attach(slot, extension);
+    });
+
+    return () => {
+      derivedSlots.forEach(({ slot }) => {
+        detachAll(slot);
+      });
+    };
+  }, [derivedSlots]);
 
   const initialItems = useMemo(() => {
     const items = [
@@ -81,11 +129,6 @@ const AppSearchBar = React.forwardRef<
         link: `${openmrsSpaBase}cohort-builder`,
         icon: <Events size={24} />,
       },
-      // {
-      //   app: "Theatre ",
-      //   link: `${openmrsSpaBase}theatre`,
-      //   icon: <UserActivity size={24} />,
-      // },
       {
         app: "System Info ",
         link: `${openmrsSpaBase}about`,
@@ -144,7 +187,7 @@ const AppSearchBar = React.forwardRef<
         />
       </form>
       <div className={styles.searchItems}>
-        <MenuItems items={items} />
+        <MenuItems items={menuItemExtensions} />
       </div>
     </>
   );

@@ -8,19 +8,16 @@ interface AppSearchOverlayProps {
   onClose: () => void;
   query?: string;
   header?: string;
-  selectAppAction?: (PatientUuid) => void;
 }
 
 const AppSearchOverlay: React.FC<AppSearchOverlayProps> = ({
   onClose,
   query = "",
   header,
-  selectAppAction,
 }) => {
   const { t } = useTranslation();
   const [searchTerm, setSearchTerm] = useState(query);
   const handleClear = useCallback(() => setSearchTerm(""), [setSearchTerm]);
-  const showSearchResults = useMemo(() => !!searchTerm?.trim(), [searchTerm]);
 
   useEffect(() => {
     if (query) {
