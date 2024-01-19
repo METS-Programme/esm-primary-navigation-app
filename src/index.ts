@@ -1,14 +1,20 @@
 import {
   defineConfigSchema,
   defineExtensionConfigSchema,
-  getAsyncLifecycle,
+  getSyncLifecycle,
   setupOfflineSync,
 } from "@openmrs/esm-framework";
 import { Application, navigateToUrl } from "single-spa";
 import { configSchema } from "./config-schema";
 import { moduleName, userPropertyChange } from "./constants";
 import { syncUserLanguagePreference } from "./offline";
-import { genericLinkConfigSchema } from "./components/generic-link/generic-link.component";
+import userPanelComponent from "./components/user-panel-switcher-item/user-panel-switcher.component";
+import changeLanguageLinkComponent from "./components/choose-locale/change-locale.component";
+import genericLinkComponent, {
+  genericLinkConfigSchema,
+} from "./components/generic-link/generic-link.component";
+import primaryNavRootComponent from "./root.component";
+import offlineBannerComponent from "./components/offline-banner/offline-banner.component";
 
 export const importTranslation = require.context(
   "../translations",
@@ -29,10 +35,7 @@ export function startupApp() {
   setupOfflineSync(userPropertyChange, [], syncUserLanguagePreference);
 }
 
-export const root = getAsyncLifecycle(
-  () => import("./root.component"),
-  options
-);
+export const root = getSyncLifecycle(primaryNavRootComponent, options);
 
 export const redirect: Application = async () => ({
   bootstrap: async () =>
@@ -41,23 +44,13 @@ export const redirect: Application = async () => ({
   unmount: async () => undefined,
 });
 
-export const userPanel = getAsyncLifecycle(
-  () =>
-    import(
-      "./components/user-panel-switcher-item/user-panel-switcher.component"
-    ),
+export const userPanel = getSyncLifecycle(userPanelComponent, options);
+
+export const localeChanger = getSyncLifecycle(
+  changeLanguageLinkComponent,
   options
 );
 
-export const localeChanger = getAsyncLifecycle(
-  () => import("./components/choose-locale/change-locale.component"),
-  options
-);
+export const linkComponent = getSyncLifecycle(genericLinkComponent, options);
 
-export const linkComponent = getAsyncLifecycle(
-  () => import("./components/generic-link/generic-link.component"),
-  {
-    featureName: "Link",
-    moduleName,
-  }
-);
+export const offlineBanner = getSyncLifecycle(offlineBannerComponent, options);
