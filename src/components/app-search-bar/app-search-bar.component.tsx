@@ -16,6 +16,7 @@ import {
   User,
   Report,
   UserActivity,
+  Grid,
 } from "@carbon/react/icons";
 import {
   AssignedExtension,
@@ -40,127 +41,72 @@ const AppSearchBar = React.forwardRef<
 >(({ onChange, onClear, onSubmit, small }, ref) => {
   const { t } = useTranslation();
 
-  // items
-  const openmrsSpaBase = window["getOpenmrsSpaBase"]();
+  // State for item extensions
+  const [derivedSlots, setDerivedSlots] = useState<
+    { slot: string; extension: string; name: string }[]
+  >([]);
 
-  // item extensions
+  // State for search term and filtered items
+  const [searchTerm, setSearchTerm] = useState("");
+  const [items, setItems] = useState(derivedSlots);
+
+  // Fetch item extensions
   const menuItemExtensions = useConnectedExtensions(
     appMenuItemSlot
   ) as AssignedExtension[];
 
-  const [derivedSlots, setDerivedSlots] = useState<
-    { slot: string; extension: string }[]
-  >([]);
-
-  const extraPanels = useMemo(() => {
-    const filteredExtensions = menuItemExtensions.filter(
-      (extension) => Object.keys(extension.meta).length > 0
-    );
-    const derivedSlotsBuffer = [];
-    return filteredExtensions.map((extension, index) => {
-      const slotName = `${appMenuItemSlot}-${index}`;
-      derivedSlotsBuffer.push({
-        slot: slotName,
-        extension: extension.name,
-      });
-      if (filteredExtensions.length === index + 1) {
-        setDerivedSlots(derivedSlotsBuffer);
-      }
-      return <ExtensionSlot name={slotName} />;
-    });
-  }, [menuItemExtensions]);
-
+  // UseEffect for processing item extensions and attaching/detaching slots
   useEffect(() => {
-    derivedSlots.forEach(({ slot, extension }) => {
+    // Filter and process extensions
+    const filteredExtensions = menuItemExtensions
+      .filter((extension) => Object.keys(extension).length > 0)
+      .map((extension, index) => ({
+        slot: `${appMenuItemSlot}-${index}`,
+        extension: extension.name,
+        name: extension.meta.name,
+      }));
+    setDerivedSlots(filteredExtensions);
+
+    // Attach/detach slots
+    filteredExtensions.forEach(({ slot, extension }) => {
       attach(slot, extension);
     });
 
     return () => {
-      derivedSlots.forEach(({ slot }) => {
+      filteredExtensions.forEach(({ slot }) => {
         detachAll(slot);
       });
     };
+  }, [menuItemExtensions]);
+
+  // UseEffect for updating items based on derivedSlots
+  useEffect(() => {
+    setItems(derivedSlots);
   }, [derivedSlots]);
 
-  const initialItems = useMemo(() => {
-    const items = [
-      {
-        app: "Data Visualiser",
-        link: `${openmrsSpaBase}home/data-visualizer`,
-        icon: <Analytics size={24} />,
-      },
-      {
-        app: "Dispensing ",
-        link: `${openmrsSpaBase}dispensing`,
-        icon: <Medication size={24} />,
-      },
-      {
-        app: "Stock Management ",
-        link: `${openmrsSpaBase}stock-management`,
-        icon: <Report size={24} />,
-      },
-      {
-        app: "Bed Management ",
-        link: `${openmrsSpaBase}bed-management`,
-        icon: <HospitalBed size={24} />,
-      },
-      {
-        app: "Health Exchange ",
-        link: `${openmrsSpaBase}health-exchange`,
-        icon: <Db2DataSharingGroup size={24} />,
-      },
-      {
-        app: "Form Builder ",
-        link: `${openmrsSpaBase}form-builder`,
-        icon: <DocumentAdd size={24} />,
-      },
-      {
-        app: "Form Render Test ",
-        link: `${openmrsSpaBase}form-render-test`,
-        icon: <DocumentImport size={24} />,
-      },
-      {
-        app: "Legacy Admin ",
-        link: `/openmrs/index.htm`,
-        icon: <User size={24} />,
-      },
-      {
-        app: "Cohort Builder ",
-        link: `${openmrsSpaBase}cohort-builder`,
-        icon: <Events size={24} />,
-      },
-      {
-        app: "System Info ",
-        link: `${openmrsSpaBase}about`,
-        icon: <VolumeFileStorage size={24} />,
-      },
-      {
-        app: "Data Entry Statistics ",
-        link: `${openmrsSpaBase}statistics`,
-        icon: <AnalyticsCustom size={24} />,
-      },
-    ];
+  // UseMemo for rendering ExtensionSlots
+  const extraPanels = useMemo(() => {
+    return items.map(({ slot }) => <ExtensionSlot key={slot} name={slot} />);
+  }, [items]);
 
-    return items;
-  }, [openmrsSpaBase]);
-
-  const [searchTerm, setSearchTerm] = useState("");
-  const [items, setItems] = useState(initialItems);
-
+  // Callback for handling search term changes
   const handleChange = useCallback(
     (val) => {
       if (typeof onChange === "function") {
         onChange(val);
       }
       setSearchTerm(val);
-      const filteredItems = initialItems.filter((item) =>
-        item.app.toLowerCase().includes(val)
+
+      // Filter items based on the search term
+      const filteredItems = derivedSlots.filter((item) =>
+        item.name.toLowerCase().includes(val.toLowerCase())
       );
       setItems(filteredItems);
     },
-    [initialItems, onChange]
+    [derivedSlots, onChange]
   );
 
+  // Handle form submission
   const handleSubmit = (evt) => {
     evt.preventDefault();
     onSubmit(searchTerm);
@@ -169,6 +115,7 @@ const AppSearchBar = React.forwardRef<
   return (
     <>
       <form onSubmit={handleSubmit} className={styles.searchArea}>
+        {/* Search component */}
         <Search
           autoFocus
           className={styles.appSearchInput}
@@ -178,7 +125,7 @@ const AppSearchBar = React.forwardRef<
           onClear={onClear}
           placeholder={t(
             "searchForApp",
-            "Search for a application or module by name"
+            "Search for an application or module by name"
           )}
           size={small ? "sm" : "lg"}
           value={searchTerm}
@@ -186,9 +133,8 @@ const AppSearchBar = React.forwardRef<
           data-testid="appSearchBar"
         />
       </form>
-      <div className={styles.searchItems}>
-        <MenuItems items={menuItemExtensions} />
-      </div>
+      {/* Render ExtensionSlots */}
+      <div className={styles.searchItems}>{extraPanels}</div>
     </>
   );
 });
