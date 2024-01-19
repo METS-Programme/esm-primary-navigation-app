@@ -21,7 +21,7 @@ export const configSchema = {
     },
     link: {
       _type: Type.String,
-      _default: "${openmrsSpaBase}/home",
+      _default: "${openmrsSpaBase}/home/patient-queues",
       _description: "The link to redirect to when the logo is clicked",
     },
   },
