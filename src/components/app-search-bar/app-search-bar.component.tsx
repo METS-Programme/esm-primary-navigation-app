@@ -61,7 +61,7 @@ const AppSearchBar = React.forwardRef<
     const filteredExtensions = menuItemExtensions
       .filter((extension) => Object.keys(extension).length > 0)
       .map((extension, index) => ({
-        slot: `${appMenuItemSlot}-${index}`,
+        slot: `${appMenuItemSlot}-${extension.name}`,
         extension: extension.name,
         name: extension.meta.name,
       }));
