@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Search } from "@carbon/react";
 import styles from "./app-search-bar.scss";
+
 import {
   AssignedExtension,
   ExtensionSlot,
