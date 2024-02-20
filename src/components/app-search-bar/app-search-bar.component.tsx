@@ -2,22 +2,6 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Search } from "@carbon/react";
 import styles from "./app-search-bar.scss";
-import MenuItems from "../../menu/menu.component";
-import {
-  Analytics,
-  AnalyticsCustom,
-  Db2DataSharingGroup,
-  DocumentAdd,
-  DocumentImport,
-  Events,
-  VolumeFileStorage,
-  HospitalBed,
-  Medication,
-  User,
-  Report,
-  UserActivity,
-  Grid,
-} from "@carbon/react/icons";
 import {
   AssignedExtension,
   ExtensionSlot,
