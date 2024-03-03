@@ -5,9 +5,6 @@ import styles from "./app-search-bar.scss";
 
 import {
   AssignedExtension,
-  ExtensionSlot,
-  attach,
-  detachAll,
   Extension,
   useConnectedExtensions,
 } from "@openmrs/esm-framework";
@@ -40,13 +37,13 @@ const AppSearchBar = React.forwardRef<
       .filter((extension) => Object.keys(extension).length > 0)
       .map((extension) => (
         <ComponentContext.Provider
-          key={extension.id}
+          key={extension?.id}
           value={{
-            moduleName: extension.moduleName,
+            moduleName: extension?.moduleName,
             extension: {
-              extensionId: extension.id,
+              extensionId: extension?.id,
               extensionSlotName: appMenuItemSlot,
-              extensionSlotModuleName: extension.moduleName,
+              extensionSlotModuleName: extension?.moduleName,
             },
           }}
         >
@@ -63,7 +60,7 @@ const AppSearchBar = React.forwardRef<
       }
       setSearchTerm(val);
 
-      const filteredItems = derivedSlots.filter((item) =>
+      const filteredItems = derivedSlots?.filter((item) =>
         item?.name?.toLowerCase().includes(val?.toLowerCase())
       );
       setDerivedSlots(filteredItems);
@@ -86,7 +83,7 @@ const AppSearchBar = React.forwardRef<
               className={styles.appSearchInput}
               closeButtonLabelText={t("clearSearch", "Clear")}
               labelText=""
-              onChange={(event) => handleChange(event.target.value)}
+              onChange={(event) => handleChange(event?.target?.value)}
               onClear={onClear}
               placeholder={t(
                 "searchForApp",
