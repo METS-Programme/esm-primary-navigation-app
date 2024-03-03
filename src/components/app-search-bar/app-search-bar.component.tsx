@@ -78,7 +78,7 @@ const AppSearchBar = React.forwardRef<
 
   return (
     <>
-      {derivedSlots.length > 0 ? (
+      {derivedSlots.length >= 0 ? (
         <>
           <form onSubmit={handleSubmit} className={styles.searchArea}>
             <Search
