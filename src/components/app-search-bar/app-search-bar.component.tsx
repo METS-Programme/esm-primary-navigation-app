@@ -8,8 +8,10 @@ import {
   ExtensionSlot,
   attach,
   detachAll,
+  Extension,
   useConnectedExtensions,
 } from "@openmrs/esm-framework";
+import { ComponentContext } from "@openmrs/esm-framework/src/internal";
 
 const appMenuItemSlot = "app-menu-item-slot";
 
@@ -26,55 +28,34 @@ const AppSearchBar = React.forwardRef<
 >(({ onChange, onClear, onSubmit, small }, ref) => {
   const { t } = useTranslation();
 
-  // State for item extensions
-  const [derivedSlots, setDerivedSlots] = useState<
-    { slot: string; extension: string; name: string }[]
-  >([]);
-
-  // State for search term and filtered items
+  const [derivedSlots, setDerivedSlots] = useState<any>([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [items, setItems] = useState(derivedSlots);
 
-  // Fetch item extensions
   const menuItemExtensions = useConnectedExtensions(
     appMenuItemSlot
   ) as AssignedExtension[];
 
-  // UseEffect for processing item extensions and attaching/detaching slots
   useEffect(() => {
-    // Filter and process extensions
     const filteredExtensions = menuItemExtensions
       .filter((extension) => Object.keys(extension).length > 0)
-      .map((extension, index) => ({
-        slot: `${appMenuItemSlot}-${extension.name}`,
-        extension: extension.name,
-        name: extension.meta.name,
-      }));
+      .map((extension) => (
+        <ComponentContext.Provider
+          key={extension.id}
+          value={{
+            moduleName: extension.moduleName,
+            extension: {
+              extensionId: extension.id,
+              extensionSlotName: appMenuItemSlot,
+              extensionSlotModuleName: extension.moduleName,
+            },
+          }}
+        >
+          <Extension />
+        </ComponentContext.Provider>
+      ));
     setDerivedSlots(filteredExtensions);
-
-    // Attach/detach slots
-    filteredExtensions.forEach(({ slot, extension }) => {
-      attach(slot, extension);
-    });
-
-    return () => {
-      filteredExtensions.forEach(({ slot }) => {
-        detachAll(slot);
-      });
-    };
   }, [menuItemExtensions]);
 
-  // UseEffect for updating items based on derivedSlots
-  useEffect(() => {
-    setItems(derivedSlots);
-  }, [derivedSlots]);
-
-  // UseMemo for rendering ExtensionSlots
-  const extraPanels = useMemo(() => {
-    return items.map(({ slot }) => <ExtensionSlot key={slot} name={slot} />);
-  }, [items]);
-
-  // Callback for handling search term changes
   const handleChange = useCallback(
     (val) => {
       if (typeof onChange === "function") {
@@ -82,16 +63,14 @@ const AppSearchBar = React.forwardRef<
       }
       setSearchTerm(val);
 
-      // Filter items based on the search term
       const filteredItems = derivedSlots.filter((item) =>
-        item.name.toLowerCase().includes(val.toLowerCase())
+        item?.name?.toLowerCase().includes(val?.toLowerCase())
       );
-      setItems(filteredItems);
+      setDerivedSlots(filteredItems);
     },
     [derivedSlots, onChange]
   );
 
-  // Handle form submission
   const handleSubmit = (evt) => {
     evt.preventDefault();
     onSubmit(searchTerm);
@@ -99,27 +78,31 @@ const AppSearchBar = React.forwardRef<
 
   return (
     <>
-      <form onSubmit={handleSubmit} className={styles.searchArea}>
-        {/* Search component */}
-        <Search
-          autoFocus
-          className={styles.appSearchInput}
-          closeButtonLabelText={t("clearSearch", "Clear")}
-          labelText=""
-          onChange={(event) => handleChange(event.target.value)}
-          onClear={onClear}
-          placeholder={t(
-            "searchForApp",
-            "Search for an application or module by name"
-          )}
-          size={small ? "sm" : "lg"}
-          value={searchTerm}
-          ref={ref}
-          data-testid="appSearchBar"
-        />
-      </form>
-      {/* Render ExtensionSlots */}
-      <div className={styles.searchItems}>{extraPanels}</div>
+      {derivedSlots.length > 0 ? (
+        <>
+          <form onSubmit={handleSubmit} className={styles.searchArea}>
+            <Search
+              autoFocus
+              className={styles.appSearchInput}
+              closeButtonLabelText={t("clearSearch", "Clear")}
+              labelText=""
+              onChange={(event) => handleChange(event.target.value)}
+              onClear={onClear}
+              placeholder={t(
+                "searchForApp",
+                "Search for an application or module by name"
+              )}
+              size={small ? "sm" : "lg"}
+              value={searchTerm}
+              ref={ref}
+              data-testid="appSearchBar"
+            />
+          </form>
+          <div className={styles.searchItems}>{derivedSlots}</div>
+        </>
+      ) : (
+        <div className={styles.searchItems}>Loading modules...</div>
+      )}
     </>
   );
 });
