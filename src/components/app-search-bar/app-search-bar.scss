@@ -1,18 +1,13 @@
 @use '@carbon/styles/scss/colors';
 @use '@carbon/styles/scss/spacing';
 @import '~@openmrs/esm-styleguide/src/vars';
-
-.searchArea {
-  width: inherit;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .appSearchInput {
-  border: none;
+    border: none;
 }
 
 .searchItems {
-  display: flex;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin: 0.5rem 0 0 0.5rem;
 }
