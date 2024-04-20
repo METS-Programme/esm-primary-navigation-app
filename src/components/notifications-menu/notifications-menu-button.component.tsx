@@ -1,19 +1,23 @@
 import React, { useState, useCallback } from "react";
 import { HeaderGlobalAction } from "@carbon/react";
-import { Notification, Close, Switcher } from "@carbon/react/icons";
-import styles from "./notifications-menu.scss";
+import { Close, Notification, NotificationNew } from "@carbon/react/icons";
+import styles from "./notifications-menu-button.scss";
 import { useLayoutType } from "@openmrs/esm-framework";
 import { useTranslation } from "react-i18next";
 import NotificationMenuOverlay from "./notifications-menu-overlay.component";
+import { useGetAlerts } from "./notifications-menu.resource";
 
 const NotificationsMenuButton: React.FC = () => {
   const [isNotificationPanelOpen, setIsNotificationPanelOpen] = useState(false);
   const { t } = useTranslation();
   const layout = useLayoutType();
+  const { alerts } = useGetAlerts();
 
   const toggleNotificationPanel = useCallback(() => {
     setIsNotificationPanelOpen(!isNotificationPanelOpen);
   }, [isNotificationPanelOpen]);
+
+  const hasUnreadAlerts = alerts.some((alert) => !alert.alertRead);
 
   return (
     <div className={styles.noficationButtonContainer}>
@@ -30,6 +34,8 @@ const NotificationsMenuButton: React.FC = () => {
       >
         {isNotificationPanelOpen ? (
           <Close size={20} />
+        ) : hasUnreadAlerts ? (
+          <NotificationNew size={20} />
         ) : (
           <Notification size={20} />
         )}
