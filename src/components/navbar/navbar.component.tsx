@@ -25,6 +25,7 @@ import UserMenuPanel from "../navbar-header-panels/user-menu-panel.component";
 import SideMenuPanel from "../navbar-header-panels/side-menu-panel.component";
 import styles from "./navbar.scss";
 import AppSearchLaunch from "../app-search-icon/app-search-icon.component";
+import NotificationsMenuButton from "../notifications-menu/notifications-menu-button.component";
 
 const Navbar: React.FC = () => {
   const session = useSession();
@@ -141,6 +142,7 @@ const Navbar: React.FC = () => {
             expanded={isActivePanel("sideMenu")}
           />
         )}
+        <NotificationsMenuButton />
         {showAppMenu && <AppSearchLaunch />}
         <NotificationsMenuPanel expanded={isActivePanel("notificationsMenu")} />
         {showUserMenu && (

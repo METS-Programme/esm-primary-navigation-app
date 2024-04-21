@@ -1,6 +1,7 @@
 import {
   defineConfigSchema,
   defineExtensionConfigSchema,
+  getAsyncLifecycle,
   getSyncLifecycle,
   setupOfflineSync,
 } from "@openmrs/esm-framework";
